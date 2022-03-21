@@ -28,7 +28,7 @@ namespace QTCityCongestionCharge.Logic.Entities
         public bool IsElectricOrHybrid { get; set; }
 
         // Navigation properties
-        public Owner Owner { get; set; }
+        public Owner? Owner { get; set; }
         public List<Payment> Payments { get; set; } = new();
         public List<Detection> Detections { get; set; } = new();
     }

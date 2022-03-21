@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bogus;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,9 @@ namespace QTCityCongestionCharge.ConApp
 {
     partial class Program
     {
+        static partial void AfterRun()
+        {
+            var x = 1;
+        }
     }
 }

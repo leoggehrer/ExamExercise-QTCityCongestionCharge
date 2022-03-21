@@ -17,6 +17,6 @@ namespace QTCityCongestionCharge.Logic.Entities
         public string PayingPerson { get; set; } = string.Empty;
 
         // Navigation properties
-        public Car Car { get; set; }
+        public Car? Car { get; set; }
     }
 }

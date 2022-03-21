@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="QTCityCongestionCharge.Logic.Entities.Car">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAECIAABAAAAgAAAAAAAAAAEAAAAAAAgAgAIAAAQ=</HashCode>
+      <FileName>Entities\Car.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Owner" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Detections" />
+      <Property Name="Payments" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="QTCityCongestionCharge.Logic.Entities.Detection">
+    <Position X="5.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAIAAAAAAAAAAgAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Entities\Detection.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="DetectedCars" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="QTCityCongestionCharge.Logic.Entities.Owner">
+    <Position X="3" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEACAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAg=</HashCode>
+      <FileName>Entities\Owner.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Cars" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="QTCityCongestionCharge.Logic.Entities.Payment">
+    <Position X="7.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAEAAAAAACAAAACAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Entities\Payment.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Car" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="QTCityCongestionCharge.Logic.Entities.VersionEntity">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\VersionEntity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="QTCityCongestionCharge.Logic.Entities.IdentityEntity">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\IdentityEntity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
