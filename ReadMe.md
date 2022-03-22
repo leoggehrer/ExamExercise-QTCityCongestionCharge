@@ -1,4 +1,11 @@
-# Exercise: City Congestion Charge (CCC)
+# Exercise: City Congestion Charge (CCC)  
+
+**Table of contents**
+1. [Introduction](#introduction)
+2. [Rules](#rules)
+3. [Simplifications](#simplifications)
+4. [Data Model](#data-model)
+5. [Exercises](#exercises)
 
 ## Introduction
 
@@ -97,5 +104,9 @@ The following data model has been designed based on the business rules described
 
 ## Exercises
 
-1. Unit testing
-2. 
+1. Create the backend system
+2. Implement the business logic
+3. Check the business logic with UnitTests
+4. Implement the RESTful interface
+5. Implement the AspMvc ui-interface
+6. Implement the WpfApi ui-interface
