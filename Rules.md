@@ -34,17 +34,17 @@ There are no fees on weekends (Saturday and Sunday).
 **Example 1:** Driving to Linz for work
 A passenger car running on fossile fuels enters Linz on a Tuesday at 8:30am and leaves Linz on the same day at 4:15pm.
 
-1 EUR for 8am-9am
-1 EUR for 9am-10am
-1 EUR for 10am-11am
-1 EUR for 11am-12am
-1 EUR for 12am-1pm
-1 EUR for 1pm-2pm
-1 EUR for 2pm-3pm
-1 EUR for 3pm-4pm
-1 EUR for 4pm-5pm
-3 EUR for driving during rush hour
-3 EUR for driving during rush hour
+1 EUR for 8am-9am  
+1 EUR for 9am-10am  
+1 EUR for 10am-11am  
+1 EUR for 11am-12am  
+1 EUR for 12am-1pm  
+1 EUR for 1pm-2pm  
+1 EUR for 2pm-3pm  
+1 EUR for 3pm-4pm  
+1 EUR for 4pm-5pm  
+3 EUR for driving during rush hour  
+3 EUR for driving during rush hour  
 
 Total fee is 9 * 1 EUR + 3 EUR + 3 EUR = 15 EUR
 The same trip done with a lorry would cost 15 EUR + 50% = 22,5 EUR. The same trip done with a motorcycle would cost 15 EUR - 50% = 7,5 EUR.
@@ -52,12 +52,12 @@ The same trip done with a lorry would cost 15 EUR + 50% = 22,5 EUR. The same tri
 **Example 2:** Staying in Linz for vacation
 A passenger car running on fossile fuels enters Linz on a Monday at 3:45pm and leaves Linz on the following Friday at 2:15pm. It was detected driving on streets inside Linz on Wednesday at 9:15am, on Thursday at 4:45pm, and on Friday at 8:45am.
 
-Monday: 9 EUR + 3 EUR = 12 EUR
-Tuesday: 20 EUR (because of max. payment per day)
-Wednesday: 20 EUR (because of max. payment per day)
-Thursday: 20 EUR (because of max. payment per day)
-Friday: 15 EUR + 3 EUR = 18 EUR
-Total fee is 90 EUR
+Monday: 9 EUR + 3 EUR = 12 EUR  
+Tuesday: 20 EUR (because of max. payment per day)  
+Wednesday: 20 EUR (because of max. payment per day)  
+Thursday: 20 EUR (because of max. payment per day)  
+Friday: 15 EUR + 3 EUR = 18 EUR  
+Total fee is 90 EUR  
 
 **Example 3:** Driving to Linz for party
 A passenger car running on fossile fuels enters Linz on a Saturday at 5:00pm and leaves Linz on the following calendar day at 1:30am (night).

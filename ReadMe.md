@@ -68,12 +68,13 @@ The following data model has been designed based on the business rules described
 ```
 
 * *Car* represents a physical car uniquely identified by its license plate. Properties of a car:
-  * ID (system-provided identification number)
-  * License plate (unique; mandatory string, max. 10 characters long)
-  * Make (mandatory string, max. 50 characters long)
-  * Model (optional string, max. 50 characters long)
-  * Color (mandatory string, max. 50 characters long)
-  * Car type (mandatory)
+  * ID (system-provided identification number)  
+  * License plate (unique; mandatory string, max. 10 characters long)  
+  * Make (mandatory string, max. 50 characters long)  
+  * Model (optional string, max. 50 characters long)  
+  * Color (mandatory string, max. 50 characters long)  
+  * IsElectricOrHybrid (indicates whether the vehicle is an electric or hybrid)
+  * Car type (mandatory)  
     * Passanger car
     * Motorcycle
     * Lorry
