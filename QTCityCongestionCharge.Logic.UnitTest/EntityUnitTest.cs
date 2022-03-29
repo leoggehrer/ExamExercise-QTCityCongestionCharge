@@ -14,14 +14,16 @@ namespace QTCityCongestionCharge.Logic.UnitTest
     [TestClass]
     public abstract class EntityUnitTest<T> where T : Entities.IdentityEntity, new()
     {
-        protected abstract Controllers.GenericController<T> CreateController();
+        public static int Counter = 0;
 
-        protected string[] IgnoreUpdateProperties = new[] { nameof(Entities.IdentityEntity.Id), nameof(Entities.VersionEntity.RowVersion) };
+        public abstract Controllers.GenericController<T> CreateController();
+
+        public string[] IgnoreUpdateProperties = new[] { nameof(Entities.IdentityEntity.Id), nameof(Entities.VersionEntity.RowVersion) };
         /// <summary>
         /// This method deletes all entities in the database.
         /// </summary>
         /// <returns></returns>
-        protected async Task DeleteControllerEntities()
+        public async Task DeleteControllerEntities()
         {
             using var ctrl = CreateController();
             var items = await ctrl.GetAllAsync();
@@ -38,20 +40,29 @@ namespace QTCityCongestionCharge.Logic.UnitTest
         /// </summary>
         /// <param name="entity">Entity created in the database.</param>
         /// <returns></returns>
-        protected async Task Create_OfEntity_AndCheck(T entity)
+        public async Task Create_OfEntity_AndCheck(T entity)
         {
-            using var ctrl = CreateController();
-            using var ctrlAfter = CreateController();
+            try
+            {
+                using var ctrl = CreateController();
+                using var ctrlAfter = CreateController();
 
-            var insertEntity = await ctrl.InsertAsync(entity);
+                var insertEntity = await ctrl.InsertAsync(entity);
 
-            Assert.IsNotNull(insertEntity);
-            await ctrl.SaveChangesAsync();
+                Assert.IsNotNull(insertEntity);
+                await ctrl.SaveChangesAsync();
 
-            var actualEntity = await ctrlAfter.GetByIdAsync(insertEntity.Id);
+                var actualEntity = await ctrlAfter.GetByIdAsync(insertEntity.Id);
 
-            Assert.IsNotNull(actualEntity);
-            Assert.IsTrue(insertEntity.AreEqualProperties(actualEntity));
+                Assert.IsNotNull(actualEntity);
+                Assert.IsTrue(insertEntity.AreEqualProperties(actualEntity));
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+
+                throw;
+            }
         }
 
         /// <summary>
@@ -59,7 +70,7 @@ namespace QTCityCongestionCharge.Logic.UnitTest
         /// </summary>
         /// <param name="entities">Entities created in the database.</param>
         /// <returns></returns>
-        protected async Task CreateArray_OfEntities_AndCheckAll(IEnumerable<T> entities)
+        public async Task CreateArray_OfEntities_AndCheckAll(IEnumerable<T> entities)
         {
             using var ctrl = CreateController();
             using var ctrlAfter = CreateController();
@@ -86,7 +97,7 @@ namespace QTCityCongestionCharge.Logic.UnitTest
         /// <param name="entity">Entity created in the Database.</param>
         /// <param name="changeEntity">Entity containing the changes.</param>
         /// <returns></returns>
-        protected async Task Update_OfEntity_AndCheck(T entity, T changeEntity)
+        public async Task Update_OfEntity_AndCheck(T entity, T changeEntity)
         {
             using var ctrl = CreateController();
             using var ctrlAfter = CreateController();
@@ -123,7 +134,7 @@ namespace QTCityCongestionCharge.Logic.UnitTest
         /// <param name="entities">Entities created in the database.</param>
         /// <param name="changeEntities">Entities containing the changes.</param>
         /// <returns></returns>
-        protected async Task UpdateArray_OfEntity_AndCheck(IEnumerable<T> entities, IEnumerable<T> changeEntities)
+        public async Task UpdateArray_OfEntity_AndCheck(IEnumerable<T> entities, IEnumerable<T> changeEntities)
         {
             using var ctrl = CreateController();
             using var ctrlAfter = CreateController();
@@ -170,8 +181,6 @@ namespace QTCityCongestionCharge.Logic.UnitTest
                 Assert.IsTrue(item.AreEqualProperties(actualUpdateEntity));
             }
         }
-
-        protected static int Counter = 0;
     }
 }
 //MdEnd

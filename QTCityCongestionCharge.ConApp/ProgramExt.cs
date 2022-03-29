@@ -11,7 +11,6 @@ namespace QTCityCongestionCharge.ConApp
     {
         static partial void AfterRun()
         {
-            var x = 1;
         }
     }
 }
