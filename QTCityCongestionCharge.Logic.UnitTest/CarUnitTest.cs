@@ -8,17 +8,15 @@ namespace QTCityCongestionCharge.Logic.UnitTest
     [TestClass]
     public class CarUnitTest : EntityUnitTest<Entities.Car>
     {
-        private CommonUnitTest CommonUnitTest { get; } = new CommonUnitTest();
         public override GenericController<Car> CreateController()
         {
             return new CarsController();
         }
 
-        public Car CreateValidFossileCar(int ownerId)
+        public Car CreateValidFossileCar()
         {
             return new Car()
             {
-                OwnerId = ownerId,
                 CarType = CarType.PassengerCar,
                 LicensePlate = $"L-FOSSI{++Counter}",
                 Make = $"ErdÖl{++Counter}",
@@ -32,7 +30,9 @@ namespace QTCityCongestionCharge.Logic.UnitTest
             try
             {
                 var ctrl = CreateController();
-                var entity = CreateValidFossileCar(ownerId);
+                var entity = CreateValidFossileCar();
+
+                entity.OwnerId = ownerId;
 
                 var insertEntity = await ctrl.InsertAsync(entity);
                 await ctrl.SaveChangesAsync();
@@ -48,18 +48,19 @@ namespace QTCityCongestionCharge.Logic.UnitTest
         [TestInitialize]
         public void TestInitialize()
         {
-            CommonUnitTest.DeleteAllEntities();
+            Task.Run(async () => await DeleteControllerEntities()).Wait();
         }
 
         [TestMethod]
         public async Task Create_ValidFossileCar_ExpectedAccept()
         {
             var ownerUnitTest = new OwnerUnitTest();
-            var owner = await ownerUnitTest.CreateValidOwnerAndStore();
+            var owner = ownerUnitTest.CreateValidOwner();
 
             Assert.IsNotNull(owner);
-            var entity = CreateValidFossileCar(owner.Id);
+            var entity = CreateValidFossileCar();
 
+            entity.Owner = owner;
             await Create_OfEntity_AndCheck(entity);
         }
     }

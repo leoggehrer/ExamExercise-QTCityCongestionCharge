@@ -12,7 +12,6 @@ namespace QTCityCongestionCharge.Logic.UnitTest
     [TestClass]
     public class OwnerUnitTest : EntityUnitTest<Entities.Owner>
     {
-        private CommonUnitTest CommonUnitTest { get; } = new CommonUnitTest();
         public override GenericController<Owner> CreateController()
         {
             return new OwnersController();
@@ -40,7 +39,7 @@ namespace QTCityCongestionCharge.Logic.UnitTest
         [TestInitialize]
         public void TestInitialize()
         {
-            CommonUnitTest.DeleteAllEntities();
+            Task.Run(async () => await DeleteControllerEntities()).Wait();
         }
 
         [TestMethod]

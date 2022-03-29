@@ -12,7 +12,6 @@ namespace QTCityCongestionCharge.Logic.UnitTest
     [TestClass]
     public class DetectionUntitTest : EntityUnitTest<Entities.Detection>
     {
-        private CommonUnitTest CommonUnitTest { get; } = new CommonUnitTest();
         public override GenericController<Detection> CreateController()
         {
             return new DetectionsController();
@@ -29,25 +28,32 @@ namespace QTCityCongestionCharge.Logic.UnitTest
             };
         }
 
-        //[TestInitialize]
-        //public void TestInitialize()
-        //{
-        //    CommonUnitTest.DeleteAllEntities();
-        //}
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Task.Run(async () => await DeleteControllerEntities()).Wait();
+        }
 
         [TestMethod]
         public async Task Create_ValidDetectionWithFossileCar_ExpectedAccept()
         {
             var carUnitTest = new CarUnitTest();
             var ownerUnitTest = new OwnerUnitTest();
-            var owner = await ownerUnitTest.CreateValidOwnerAndStore();
+
+            await carUnitTest.DeleteControllerEntities();
+            await ownerUnitTest.DeleteControllerEntities();
+
+            var owner = ownerUnitTest.CreateValidOwner();
+            var car = carUnitTest.CreateValidFossileCar();
 
             Assert.IsNotNull(owner);
-            //var car = await carUnitTest.CreateValidFossilCarAndStore(owner.Id);
+            Assert.IsNotNull(car);
+            car.Owner = owner;
 
-            //Assert.IsNotNull(car);
-            //var entity = CreateValidDetection(DateTime.Now, MovementType.Entering, new List<Car>() { car });
-            //await Create_OfEntity_AndCheck(entity);
+            var entity = CreateValidDetection(DateTime.Now, MovementType.Entering, new List<Car>() { car });
+
+            Assert.IsNotNull(entity);
+            await Create_OfEntity_AndCheck(entity);
         }
     }
 }

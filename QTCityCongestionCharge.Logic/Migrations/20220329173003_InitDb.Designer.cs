@@ -12,7 +12,7 @@ using QTCityCongestionCharge.Logic.DataContext;
 namespace QTCityCongestionCharge.Logic.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20220321092436_InitDb")]
+    [Migration("20220329173003_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

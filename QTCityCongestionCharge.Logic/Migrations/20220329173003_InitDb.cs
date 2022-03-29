@@ -75,7 +75,7 @@ namespace QTCityCongestionCharge.Logic.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CarDetections",
+                name: "CarDetection",
                 schema: "App",
                 columns: table => new
                 {
@@ -84,16 +84,16 @@ namespace QTCityCongestionCharge.Logic.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CarDetections", x => new { x.DetectedCarsId, x.DetectionsId });
+                    table.PrimaryKey("PK_CarDetection", x => new { x.DetectedCarsId, x.DetectionsId });
                     table.ForeignKey(
-                        name: "FK_CarDetections_Cars_DetectedCarsId",
+                        name: "FK_CarDetection_Cars_DetectedCarsId",
                         column: x => x.DetectedCarsId,
                         principalSchema: "App",
                         principalTable: "Cars",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CarDetections_Detections_DetectionsId",
+                        name: "FK_CarDetection_Detections_DetectionsId",
                         column: x => x.DetectionsId,
                         principalSchema: "App",
                         principalTable: "Detections",
@@ -127,9 +127,9 @@ namespace QTCityCongestionCharge.Logic.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CarDetections_DetectionsId",
+                name: "IX_CarDetection_DetectionsId",
                 schema: "App",
-                table: "CarDetections",
+                table: "CarDetection",
                 column: "DetectionsId");
 
             migrationBuilder.CreateIndex(
@@ -155,7 +155,7 @@ namespace QTCityCongestionCharge.Logic.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CarDetections",
+                name: "CarDetection",
                 schema: "App");
 
             migrationBuilder.DropTable(
