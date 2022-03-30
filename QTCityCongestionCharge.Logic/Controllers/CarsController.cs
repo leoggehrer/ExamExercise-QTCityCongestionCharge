@@ -22,76 +22,113 @@ namespace QTCityCongestionCharge.Logic.Controllers
 
             if (car != null && car.Detections.Count > 0)
             {
-                DateTime? startTime = null;
-                DateTime? endTime = null;
                 var chargeType = GetChargeType(car);
                 var maxPrice = FeeTable.GetMaxPrice(chargeType);
                 var detections = car.Detections.OrderBy(d => d.Taken).ToArray();
+                var dayModels = CreateDayModels(chargeType, car.Detections);
 
-                foreach (var item in detections)
+                foreach (var item in dayModels)
                 {
-                    bool isPeakTime = PeakTimes.IsPickTimer(item.Taken);
-                    var drivingPrice = FeeTable.GetDrivingPrice(chargeType, isPeakTime);
+                    if (item.To.HasValue)
+                    {
+                        var ts = item.To.Value - item.From;
+                        var hours = Math.Ceiling(ts.TotalHours);
+                        var parkingPrice = FeeTable.GetParkingPrice(item.ChargeType);
 
-                    if (item.MovementType == Entities.MovementType.Entering)
-                    {
-                        startTime = item.Taken;
-                        startTime = startTime.Value.AddMinutes(startTime.Value.Minute * -1);
-                    }
-                    else if (item.MovementType == Entities.MovementType.Leaving)
-                    {
-                        endTime = item.Taken;
-                        endTime = endTime.Value.AddMinutes(endTime.Value.Minute * -1);
-                        endTime = endTime.Value.AddHours(1);
-                        if (startTime.HasValue == false)
-                        {
-                            startTime = endTime;
-                        }
-                    }
-                    else
-                    {
-                        endTime = item.Taken;
-                        endTime = endTime.Value.AddMinutes(endTime.Value.Minute * -1);
-                        endTime = endTime.Value.AddHours(1);
-                        if (startTime.HasValue == false)
-                        {
-                            startTime = endTime;
-                        }
-                    }
-                    if (startTime.HasValue && endTime.HasValue)
-                    {
-                        result += CalculateParkingPrice(chargeType, drivingPrice, startTime.Value, endTime.Value);
-                        startTime = endTime = null;
-                    }
-                    else
-                    {
-                        result += drivingPrice;
+                        result += Math.Min(item.StartFee + (parkingPrice * hours), item.MaxPrice);
                     }
                 }
             }
             return result;
         }
-        public static double CalculateParkingPrice(ChargeType chargeType, double startPrice, DateTime startTime, DateTime endTime)
+        internal static List<DayModel> CreateDayModels(ChargeType chargeType, IEnumerable<Entities.Detection> detections)
         {
-            var dayPrice = startPrice;
-            var maxDayPrice = FeeTable.GetMaxPrice(chargeType);
-            var result = 0.0;
+            var result = new List<DayModel>();
+            var maxPrice = FeeTable.GetMaxPrice(chargeType);
+            var orderDetections = detections.OrderBy(d => d.Taken).ToArray();
 
-            while (startTime < endTime)
+            foreach (var item in orderDetections)
             {
-                if (startTime.Hour == 23)
+                bool isPeakTime = PeakTimes.IsPickTimer(item.Taken);
+                var drivingPrice = FeeTable.GetDrivingPrice(chargeType, isPeakTime);
+
+                if (item.MovementType == Entities.MovementType.Entering)
                 {
-                    result += Math.Min(dayPrice, maxDayPrice);
-                    dayPrice = 0.0;
+                    result.Add(new DayModel
+                    {
+                        ChargeType = chargeType,
+                        MaxPrice = FeeTable.GetMaxPrice(chargeType),
+                        StartFee = drivingPrice,
+                        From = new DateTime(item.Taken.Year, item.Taken.Month, item.Taken.Day, item.Taken.Hour, 0, 0),
+                    });
                 }
-                else
+                else if (item.MovementType == Entities.MovementType.Leaving)
                 {
-                    dayPrice += FeeTable.GetParkingPrice(chargeType);
-                    dayPrice = Math.Min(dayPrice, maxDayPrice);
+                    var lastModel = result.LastOrDefault();
+
+                    if (lastModel != null)
+                    {
+                        if (lastModel.GetFromDayStamp() == DayModel.GetDayStamp(item.Taken))
+                        {
+                            lastModel.StartFee += drivingPrice;
+                            lastModel.To = item.Taken;
+                        }
+                        else if (lastModel.GetFromDayStamp() < DayModel.GetDayStamp(item.Taken))
+                        {
+                            var lastDate = lastModel.From;
+
+                            while (DayModel.GetDayStamp(lastDate) < DayModel.GetDayStamp(item.Taken))
+                            {
+                                lastModel.To = new DateTime(lastDate.Year, lastDate.Month, lastDate.Day, 23, 59, 59);
+                                lastDate = lastDate.AddDays(1);
+                                lastDate = new DateTime(lastDate.Year, lastDate.Month, lastDate.Day, 0, 0, 0);
+                                lastModel = new DayModel
+                                {
+                                    ChargeType = chargeType,
+                                    MaxPrice = lastModel.MaxPrice,
+                                    StartFee = DayModel.GetDayStamp(lastDate) == DayModel.GetDayStamp(item.Taken) ? drivingPrice : 0,
+                                    From = lastDate,
+                                    To = DayModel.GetDayStamp(lastDate) == DayModel.GetDayStamp(item.Taken) ? item.Taken : null,
+                                };
+                                result.Add(lastModel);
+                            }
+                        }
+                    }
                 }
-                startTime = startTime.AddHours(1);
+                else if (item.MovementType == Entities.MovementType.DrivingInside)
+                {
+                    var lastModel = result.LastOrDefault();
+
+                    if (lastModel != null)
+                    {
+                        if (lastModel.GetFromDayStamp() == DayModel.GetDayStamp(item.Taken))
+                        {
+                            lastModel.StartFee += drivingPrice;
+                            lastModel.To = item.Taken;
+                        }
+                        else if (lastModel.GetFromDayStamp() < DayModel.GetDayStamp(item.Taken))
+                        {
+                            var lastDate = lastModel.From;
+
+                            while (DayModel.GetDayStamp(lastDate) < DayModel.GetDayStamp(item.Taken))
+                            {
+                                lastModel.To = new DateTime(lastDate.Year, lastDate.Month, lastDate.Day, 23, 59, 59);
+                                lastDate = lastDate.AddDays(1);
+                                lastDate = new DateTime(lastDate.Year, lastDate.Month, lastDate.Day, 0, 0, 0);
+                                lastModel = new DayModel
+                                {
+                                    ChargeType = chargeType,
+                                    MaxPrice = lastModel.MaxPrice,
+                                    StartFee = DayModel.GetDayStamp(lastDate) == DayModel.GetDayStamp(item.Taken) ? drivingPrice : 0,
+                                    From = lastDate,
+                                    To = DayModel.GetDayStamp(lastDate) == DayModel.GetDayStamp(item.Taken) ? item.Taken : null,
+                                };
+                                result.Add(lastModel);
+                            }
+                        }
+                    }
+                }
             }
-            result += dayPrice;
             return result;
         }
         public static ChargeType GetChargeType(Entities.Car car)

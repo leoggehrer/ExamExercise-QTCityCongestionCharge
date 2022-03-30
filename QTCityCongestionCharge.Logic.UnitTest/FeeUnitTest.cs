@@ -55,13 +55,14 @@ namespace QTCityCongestionCharge.Logic.UnitTest
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
-        public async Task Execute_TestExample02_ExpectedFee90()
+        public async Task Execute_TestExample02_ExpectedFee91()
         {
-            var expected = 90.0;
+            var expected = 91.0;
             using var carCtrl = new Controllers.CarsController();
             var enteringTaken = new DateTime(2022, 3, 7, 15, 45, 0);
             var detectionTaken1 = new DateTime(2022, 3, 9, 9, 15, 0);
             var detectionTaken2 = new DateTime(2022, 3, 10, 16, 45, 0);
+            var detectionTaken3 = new DateTime(2022, 3, 11, 8, 45, 0);
             var leavingTaken = new DateTime(2022, 3, 11, 14, 15, 0);
             var carUnitTest = new CarUnitTest();
             var ownerUnitTest = new OwnerUnitTest();
@@ -76,13 +77,14 @@ namespace QTCityCongestionCharge.Logic.UnitTest
             var enteringDetection = detectionUnitTest.CreateValidDetection(enteringTaken, Entities.MovementType.Entering, new System.Collections.Generic.List<Entities.Car> { car });
             var detection1 = detectionUnitTest.CreateValidDetection(detectionTaken1, Entities.MovementType.DrivingInside, new System.Collections.Generic.List<Entities.Car> { car });
             var detection2 = detectionUnitTest.CreateValidDetection(detectionTaken2, Entities.MovementType.DrivingInside, new System.Collections.Generic.List<Entities.Car> { car });
+            var detection3 = detectionUnitTest.CreateValidDetection(detectionTaken3, Entities.MovementType.DrivingInside, new System.Collections.Generic.List<Entities.Car> { car });
             var leavingDetection = detectionUnitTest.CreateValidDetection(leavingTaken, Entities.MovementType.Leaving, new System.Collections.Generic.List<Entities.Car> { car });
 
             Assert.IsNotNull(owner);
             Assert.IsNotNull(car);
             car.Owner = owner;
 
-            await detectionUnitTest.CreateArray_OfEntities_AndCheckAll(new[] { enteringDetection, detection1, detection2, leavingDetection });
+            await detectionUnitTest.CreateArray_OfEntities_AndCheckAll(new[] { enteringDetection, detection1, detection2, detection3, leavingDetection });
 
             var actual = await carCtrl.CalculateFeeAsync(car.Id);
             Assert.AreEqual(expected, actual);

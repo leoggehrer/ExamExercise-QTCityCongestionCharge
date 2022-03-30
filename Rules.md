@@ -56,8 +56,8 @@ Monday: 9 EUR + 3 EUR = 12 EUR
 Tuesday: 20 EUR (because of max. payment per day)  
 Wednesday: 20 EUR (because of max. payment per day)  
 Thursday: 20 EUR (because of max. payment per day)  
-Friday: 15 EUR + 3 EUR = 18 EUR  
-Total fee is 90 EUR  
+Friday: 15 EUR + 3 EUR + 1 EUR = 19 EUR  
+Total fee is 91 EUR  
 
 **Example 3:** Driving to Linz for party  
 A passenger car running on fossile fuels enters Linz on a Saturday at 5:00pm and leaves Linz on the following calendar day at 1:30am (night).  
