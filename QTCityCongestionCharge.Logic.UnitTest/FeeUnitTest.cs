@@ -89,5 +89,34 @@ namespace QTCityCongestionCharge.Logic.UnitTest
             var actual = await carCtrl.CalculateFeeAsync(car.Id);
             Assert.AreEqual(expected, actual);
         }
+        [TestMethod]
+        public async Task Execute_TestExample03_ExpectedFee0()
+        {
+            var expected = 0.0;
+            using var carCtrl = new Controllers.CarsController();
+            var enteringTaken = new DateTime(2022, 3, 19, 17, 00, 0);
+            var leavingTaken = new DateTime(2022, 3, 20, 1, 30, 0);
+            var carUnitTest = new CarUnitTest();
+            var ownerUnitTest = new OwnerUnitTest();
+            var detectionUnitTest = new DetectionUntitTest();
+
+            await detectionUnitTest.DeleteControllerEntities();
+            await carUnitTest.DeleteControllerEntities();
+            await ownerUnitTest.DeleteControllerEntities();
+
+            var owner = ownerUnitTest.CreateValidOwner();
+            var car = carUnitTest.CreateValidFossileCar();
+            var enteringDetection = detectionUnitTest.CreateValidDetection(enteringTaken, Entities.MovementType.Entering, new System.Collections.Generic.List<Entities.Car> { car });
+            var leavingDetection = detectionUnitTest.CreateValidDetection(leavingTaken, Entities.MovementType.Leaving, new System.Collections.Generic.List<Entities.Car> { car });
+
+            Assert.IsNotNull(owner);
+            Assert.IsNotNull(car);
+            car.Owner = owner;
+
+            await detectionUnitTest.CreateArray_OfEntities_AndCheckAll(new[] { enteringDetection, leavingDetection });
+
+            var actual = await carCtrl.CalculateFeeAsync(car.Id);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

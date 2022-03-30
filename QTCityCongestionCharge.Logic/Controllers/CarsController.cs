@@ -29,7 +29,7 @@ namespace QTCityCongestionCharge.Logic.Controllers
 
                 foreach (var item in dayModels)
                 {
-                    if (item.To.HasValue)
+                    if (item.To.HasValue && item.IsWeekend == false)
                     {
                         var ts = item.To.Value - item.From;
                         var hours = Math.Ceiling(ts.TotalHours);

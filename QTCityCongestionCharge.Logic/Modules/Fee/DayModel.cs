@@ -8,6 +8,7 @@
         public DateTime From { get; set; }
         public DateTime? To { get; set; }
 
+        public bool IsWeekend => From.DayOfWeek == DayOfWeek.Saturday || From.DayOfWeek == DayOfWeek.Sunday;
         public int GetFromDayStamp()
         {
             return GetDayStamp(From);
