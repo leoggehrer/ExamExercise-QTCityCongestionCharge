@@ -25,6 +25,54 @@ namespace QTCityCongestionCharge.Logic.UnitTest
                 IsElectricOrHybrid = false,
             };
         }
+        public Car CreateValidFossileVan()
+        {
+            return new Car()
+            {
+                CarType = CarType.Van,
+                LicensePlate = $"L-VAN{++Counter}",
+                Make = $"ErdÖl{++Counter}",
+                Model = "Verbrenner",
+                Color = "Schwarz",
+                IsElectricOrHybrid = false,
+            };
+        }
+        public Car CreateValidFossileLorry()
+        {
+            return new Car()
+            {
+                CarType = CarType.Lorry,
+                LicensePlate = $"L-LORRY{++Counter}",
+                Make = $"ErdÖl{++Counter}",
+                Model = "Verbrenner",
+                Color = "Schwarz",
+                IsElectricOrHybrid = false,
+            };
+        }
+        public Car CreateValidFossileMotorcycle()
+        {
+            return new Car()
+            {
+                CarType = CarType.Motorcycle,
+                LicensePlate = $"L-MCYCLE{++Counter}",
+                Make = $"ErdÖl{++Counter}",
+                Model = "Verbrenner",
+                Color = "Schwarz",
+                IsElectricOrHybrid = false,
+            };
+        }
+        public Car CreateValidHeVCar()
+        {
+            return new Car()
+            {
+                CarType = CarType.PassengerCar,
+                LicensePlate = $"L-MCYCLE{++Counter}",
+                Make = $"ErdÖl{++Counter}",
+                Model = "Verbrenner",
+                Color = "Schwarz",
+                IsElectricOrHybrid = true,
+            };
+        }
         public async Task<Car> CreateValidFossilCarAndStore(int ownerId)
         {
             try
@@ -59,6 +107,54 @@ namespace QTCityCongestionCharge.Logic.UnitTest
 
             Assert.IsNotNull(owner);
             var entity = CreateValidFossileCar();
+
+            entity.Owner = owner;
+            await Create_OfEntity_AndCheck(entity);
+        }
+        [TestMethod]
+        public async Task Create_ValidFossileVan_ExpectedAccept()
+        {
+            var ownerUnitTest = new OwnerUnitTest();
+            var owner = ownerUnitTest.CreateValidOwner();
+
+            Assert.IsNotNull(owner);
+            var entity = CreateValidFossileVan();
+
+            entity.Owner = owner;
+            await Create_OfEntity_AndCheck(entity);
+        }
+        [TestMethod]
+        public async Task Create_ValidFossileLorry_ExpectedAccept()
+        {
+            var ownerUnitTest = new OwnerUnitTest();
+            var owner = ownerUnitTest.CreateValidOwner();
+
+            Assert.IsNotNull(owner);
+            var entity = CreateValidFossileLorry();
+
+            entity.Owner = owner;
+            await Create_OfEntity_AndCheck(entity);
+        }
+        [TestMethod]
+        public async Task Create_ValidFossileMotorcycle_ExpectedAccept()
+        {
+            var ownerUnitTest = new OwnerUnitTest();
+            var owner = ownerUnitTest.CreateValidOwner();
+
+            Assert.IsNotNull(owner);
+            var entity = CreateValidFossileMotorcycle();
+
+            entity.Owner = owner;
+            await Create_OfEntity_AndCheck(entity);
+        }
+        [TestMethod]
+        public async Task Create_ValidHeVCar_ExpectedAccept()
+        {
+            var ownerUnitTest = new OwnerUnitTest();
+            var owner = ownerUnitTest.CreateValidOwner();
+
+            Assert.IsNotNull(owner);
+            var entity = CreateValidHeVCar();
 
             entity.Owner = owner;
             await Create_OfEntity_AndCheck(entity);
