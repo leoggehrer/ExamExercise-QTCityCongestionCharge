@@ -126,7 +126,6 @@ namespace QTCityCongestionCharge.AspMvc.Controllers
             }
 
             entity.CopyFrom(model);
-
             if (ModelState.IsValid)
             {
                 try

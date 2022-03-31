@@ -6,6 +6,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 
+// Add logic controllers
+builder.Services.AddTransient<QTCityCongestionCharge.Logic.Controllers.OwnersController>();
+builder.Services.AddTransient<QTCityCongestionCharge.Logic.Controllers.CarsController>();
+builder.Services.AddTransient<QTCityCongestionCharge.Logic.Controllers.DetectionsController>();
+builder.Services.AddTransient<QTCityCongestionCharge.Logic.Controllers.PaymentsController>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
