@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.OwnerName)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.LicensePlate)
             </th>
             <th>
@@ -36,6 +39,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerName)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LicensePlate)
             </td>

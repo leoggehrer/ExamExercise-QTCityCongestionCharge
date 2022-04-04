@@ -16,3 +16,17 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.form-group {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.control-label {
+    margin-bottom: 0.5em;
+}
+
+.form-check-label {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}

@@ -40,6 +40,7 @@ namespace QTCityCongestionCharge.AspMvc.Controllers
             var result = base.ToModel(entity);
 
             result.Owners = Owners;
+            result.OwnerName = Owners.FirstOrDefault(e => e.Id == entity.OwnerId)?.Fullname;
             return result;
         }
     }

@@ -16,6 +16,12 @@ namespace QTCityCongestionCharge.AspMvc.Models
 
         [MaxLength(50)]
         public string Model { get; set; } = string.Empty;
+        [Display(Name = "Model")]
+        public string CarModel 
+        { 
+            get => Model; 
+            set=> Model = value; 
+        }
 
         [Required]
         [MaxLength(50)]
@@ -27,5 +33,6 @@ namespace QTCityCongestionCharge.AspMvc.Models
 
         // Advanced properties
         public List<Owner> Owners { get; set; } = new();
+        public string? OwnerName { get; set; }
     }
 }
